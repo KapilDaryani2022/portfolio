@@ -1,17 +1,8 @@
-"use client";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import Stack from "@mui/material/Stack";
-import { Fade } from "@mui/material";
 import TypingAnimation from "./components/Typing";
 import Lottie from "lottie-react";
-import SpeedDial from "@mui/material/SpeedDial";
-import SpeedDialAction from "@mui/material/SpeedDialAction";
 import ProjectsSection from "./components/Projects";
-import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
-import SaveIcon from "@mui/icons-material/Save";
-import PrintIcon from "@mui/icons-material/Print";
-import ShareIcon from "@mui/icons-material/Share";
 import Experience from "./components/Experience";
 import ProjectImage2 from "../../public/images/worklab.png";
 import KapilImage from "../../public/images/kapil-daryani.jpg";
@@ -19,35 +10,14 @@ import robot from "../../public/lottifiles/robot.json";
 import SkillsSection from "./components/SkillsSection";
 
 export default function Home() {
-  // const actions = [
-  //   { icon: <FileCopyIcon />, name: "Copy" },
-  //   { icon: <SaveIcon />, name: "Save" },
-  //   { icon: <PrintIcon />, name: "Print" },
-  //   { icon: <ShareIcon />, name: "Share" },
-  // ];
   return (
     <main>
-      {/* <SpeedDial
-        ariaLabel="Share this portfolio"
-        sx={{ position: "absolute", bottom: 16, right: 16 }}
-        icon={<ShareIcon />}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-          />
-        ))}
-      </SpeedDial> */}
       <section className="home-banner">
         <div id="stars"></div>
         <div id="stars2"></div>
         <div id="stars3"></div>
         <div className="container fade">
           <div className="home-banner--content">
-            {/* <Image src={Pattern} alt='' /> */}
-            {/* <p><span>Frontend Developer</span></p> */}
             <h1>
               <span>
                 <strong>{"< "}</strong>
@@ -113,9 +83,6 @@ export default function Home() {
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
               </svg>
             </a>
-            {/* <a href="https://twitter.com/KapilDaryani" target="_blank" rel="noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><title>CodePen</title><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 15.5 12 8.5 22 15.5"></polyline><line x1="12" y1="2" x2="12" y2="8.5"></line></svg>
-                        </a> */}
             <a
               href="https://www.instagram.com/kapil_daryani05/"
               target="_blank"
