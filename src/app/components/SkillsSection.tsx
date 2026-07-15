@@ -1,6 +1,7 @@
+'use client'
+import { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import WebBuild from "./WebBuild";
-
 import NextImage from "../../../public/images/next.svg";
 import ReactImage from "../../../public/images/react.svg";
 import WordpressImage from "../../../public/images/wordpress.svg";
@@ -127,7 +128,6 @@ export default function SkillsSection() {
   );
 }
 
-import { useEffect, useRef, useState } from "react";
 
 function Spider() {
    const spiderRef = useRef<HTMLDivElement | null>(null);

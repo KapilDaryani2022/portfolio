@@ -1,5 +1,5 @@
+'use client'
 import { useEffect, useRef } from "react";
-
 interface Point {
   px: number;
   py: number;

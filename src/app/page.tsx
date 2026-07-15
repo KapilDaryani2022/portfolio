@@ -1,13 +1,12 @@
 import Image from "next/image";
 import Stack from "@mui/material/Stack";
 import TypingAnimation from "./components/Typing";
-import Lottie from "lottie-react";
 import ProjectsSection from "./components/Projects";
 import Experience from "./components/Experience";
 import ProjectImage2 from "../../public/images/worklab.png";
 import KapilImage from "../../public/images/kapil-daryani.jpg";
-import robot from "../../public/lottifiles/robot.json";
 import SkillsSection from "./components/SkillsSection";
+import RobotAnimation from "./components/RobotAnimation";
 
 export default function Home() {
   return (
@@ -161,7 +160,7 @@ export default function Home() {
               {/* <h3>Follow me </h3> */}
             </div>
             <div className="floating-div">
-              <Lottie animationData={robot} loop={true} />
+              <RobotAnimation />
             </div>
           </div>
         </div>
