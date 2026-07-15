@@ -54,7 +54,7 @@ const Header: React.FC = () => {
                     </div>
                     <div className="header--content--right">
                         <a
-                            href="/Kapil-Daryani-Resume.pdf"
+                            href="/kapil-daryani-resume.pdf"
                             download
                             className="resume"
                         >
