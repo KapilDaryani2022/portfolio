@@ -6,7 +6,14 @@ import Experience from "./components/Experience";
 import ProjectImage2 from "../../public/images/worklab.png";
 import KapilImage from "../../public/images/kapil-daryani.jpg";
 import SkillsSection from "./components/SkillsSection";
-import RobotAnimation from "./components/RobotAnimation";
+import dynamic from "next/dynamic";
+
+const RobotAnimation = dynamic(
+  () => import("./components/RobotAnimation"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Home() {
   return (
