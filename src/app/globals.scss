@@ -227,7 +227,7 @@ section {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    min-height: calc(100vh - 200px);
+    min-height: calc(100dvh - 200px);
   }
   .flex {
     margin-bottom: 45px;
@@ -400,9 +400,9 @@ section {
   @media (max-width: 767px) {
     padding: 100px 0 60px;
     .home-banner--content  {
-      justify-content: end;
+      justify-content: center;
       flex-direction: column;
-      min-height: calc(100vh - 220px);
+      min-height: calc(100dvh - 220px);
     }
     .banner-des {
       font-size: 14px;
@@ -510,7 +510,7 @@ header {
 }
 .animated {
   width: 130%;
-  height: 0vh;
+  height: 0dvh;
   left: 50%;
   transform: translateX(-50%);
   display: block;
@@ -528,7 +528,7 @@ header {
   transition-delay: .5s;
 }
 .animated.active {
-  height: 130vh;
+  height: 130dvh;
   // border-radius: 0;
 }
 .animated.transiton.animated {
@@ -551,7 +551,7 @@ header {
   }
 }
 .header-content {
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   position: fixed;
   top: 0;
@@ -1155,9 +1155,10 @@ header {
       width: 100%;
       height: 100%;
       img {
-        width: 100%;
-        height: 100%;
+        width: 105%;
+        height: 105%;
         object-fit: cover;
+        object-position: bottom;
       }
       &::after {
         background-color: $primaryLight;
@@ -1328,7 +1329,7 @@ footer {
 
 // SOLAR SYSTEM
 .main-container {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   display: -webkit-flex;
   align-items: center;
@@ -2267,7 +2268,7 @@ footer a:hover {
     margin-top: 18px
   }
   .header-content {
-    height: 100vh;
+    height: 100dvh;
     width: 100vw;
     position: fixed;
     top: 0;
@@ -2276,5 +2277,10 @@ footer a:hover {
     background-color: #090A0F;
     display: flex;
     padding: 30px 1.5rem;
+  }
+  .pull-text {
+    opacity: 1 !important;
+    visibility: visible;
+    top: 140px
   }
 }

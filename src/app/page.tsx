@@ -4,7 +4,7 @@ import TypingAnimation from "./components/Typing";
 import ProjectsSection from "./components/Projects";
 import Experience from "./components/Experience";
 import ProjectImage2 from "../../public/images/worklab.png";
-import KapilImage from "../../public/images/kapil-daryani.jpg";
+import KapilImage from "../../public/images/kapil-daryani.webp";
 import SkillsSection from "./components/SkillsSection";
 import dynamic from "next/dynamic";
 
@@ -119,7 +119,7 @@ export default function Home() {
           <h2>About Me</h2>
           <div className="flex">
            <div className="">
-              <p>Hey there! I'm Kapil Daryani, a web developer with a passion for turning ideas into digital reality. My coding journey started with the classic trio of HTML, CSS, and JavaScript, quickly moved into modern frameworks. These days, I'm diving deeper into <span>React, Vue, Next, React Native</span>, and the amazing ecosystem around them — especially <span>API integrations, state management, and building pixel-perfect UIs.</span></p>
+              <p>Hey there! I'm Kapil Daryani, a web and mobile app developer with a passion for turning ideas into digital reality. My coding journey started with the classic trio of HTML, CSS, and JavaScript, quickly moved into modern frameworks. These days, I'm diving deeper into <span>React, Vue, Next, React Native</span>, and the amazing ecosystem around them — especially <span>API integrations, state management, and building pixel-perfect UIs.</span></p>
               <p>The web is a constantly evolving playground, and I'm all in! I love the challenge of learning new things and using that knowledge to create amazing websites that look great and work flawlessly on any device.</p>
               <p>Ready to see what I can do? Check out my <a href="#projects">projects!</a></p>
             </div>

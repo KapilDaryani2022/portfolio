@@ -7,28 +7,55 @@ export default function Experience() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute("data-index"));
-            setActiveStep(index + 1);
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.6,
-      }
-    );
+    let ticking = false;
 
-    itemRefs.current.forEach((item) => {
-      if (item) {
-        observer.observe(item);
-      }
-    });
+    const updateActiveStep = () => {
+      const viewportCenter = window.innerHeight / 2;
 
-    return () => observer.disconnect();
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      itemRefs.current.forEach((item, index) => {
+        if (!item) return;
+
+        const rect = item.getBoundingClientRect();
+
+        // Ignore elements completely outside the viewport
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+        const elementCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(viewportCenter - elementCenter);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setActiveStep((prev) =>
+        prev !== closestIndex + 1 ? closestIndex + 1 : prev
+      );
+
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveStep);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    // Initial calculation
+    updateActiveStep();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
 
   const scrollToStep = (index: number) => {
