@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import WebBuild from "./WebBuild";
 import NextImage from "../../../public/images/next.svg";
+import SpiderWebMobile from "../../../public/images/spider-web.png";
 import ReactImage from "../../../public/images/react.svg";
 import WordpressImage from "../../../public/images/wordpress.svg";
 import VueImage from "../../../public/images/vue.svg";
@@ -95,9 +96,9 @@ function SkillTrack() {
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="skills">
+    <section id="skills" className="skills" style={{position: 'relative'}}>
       <WebBuild />
-
+      <Image src={SpiderWebMobile} alt="spider-web" className="spider-wed-mobile" />
       <Spider />
 
       <h2>SKILLS</h2>

@@ -1,6 +1,5 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
+'use client'
+import { useEffect, useRef } from "react";
 
 interface Point {
   px: number;
@@ -18,37 +17,28 @@ interface DrawPart {
 class Controller {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
-
-  screenWidth = 0;
-  screenHeight = 0;
-
-  lastRequestId = 0;
-  objectsToDraw: DrawPart[] = [];
-
-  // IMPORTANT: track width to avoid mobile scroll resize replay
-  private lastWidth = 0;
+  screenWidth: number = 0;
+  screenHeight: number = 0;
+  lastRequestId: number = 0;
+  objectsToDraw: DrawPart[];
+  lastWidth: number = 0;
+  resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
-    this.ctx = this.canvas.getContext('2d')!;
+    this.ctx = this.canvas.getContext("2d")!;
+    this.objectsToDraw = [];
 
     this.resize = this.resize.bind(this);
+    this.handleResizeEvent = this.handleResizeEvent.bind(this);
     this.init = this.init.bind(this);
-    this.destroy = this.destroy.bind(this);
   }
 
-  drawCurve(
-    control: Point,
-    p1: Point,
-    p2: Point = { px: 0, py: 0 },
-    radius = 0
-  ) {
+  drawCurve(control: Point, p1: Point, p2: Point = { px: 0, py: 0 }, radius: number = 0) {
     const ctx = this.ctx;
-
     ctx.beginPath();
     ctx.moveTo(p1.px, p1.py);
     ctx.arcTo(control.px, control.py, p2.px, p2.py, radius);
-
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'white';
     ctx.stroke();
@@ -56,11 +46,9 @@ class Controller {
 
   drawLine(control: Point, p: Point) {
     const ctx = this.ctx;
-
     ctx.beginPath();
     ctx.moveTo(control.px, control.py);
     ctx.lineTo(p.px, p.py);
-
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'white';
     ctx.stroke();
@@ -79,41 +67,45 @@ class Controller {
     }
   }
 
+  shuffleArray(target: DrawPart[]) {
+    const auxArray: DrawPart[] = [];
+    while (target.length > 0) {
+      auxArray.push(target.shift()!);
+    }
+
+    while (auxArray.length > 0) {
+      const n = Math.floor(Math.random() * auxArray.length);
+      for (let i = 0; i < n; i++) {
+        auxArray.push(auxArray.shift()!);
+      }
+      const x = auxArray.shift()!;
+      target.push(x);
+    }
+  }
+
   drawWebByParts() {
     this.ctx.clearRect(0, 0, this.screenWidth, this.screenHeight);
-
-    const controlPoint = {
-      px: this.screenWidth / 2,
-      py: this.screenHeight / 2,
-    };
-
-    const outerRadius =
-      Math.min(this.screenWidth / 2, this.screenHeight / 2) + 300;
+    const controlPoint = { px: this.screenWidth / 2, py: this.screenHeight / 2 };
+    const outerRadius = Math.min(this.screenWidth / 2, this.screenHeight / 2) + 300;
 
     const nLines = 18;
     const deltaAngle = 360 / nLines;
     const degree = Math.PI / 180;
 
     const points: Point[] = [];
-
     for (let i = 0; i < nLines; i++) {
       points.push({
-        px:
-          controlPoint.px +
-          outerRadius * Math.cos(i * deltaAngle * degree),
-        py:
-          controlPoint.py +
-          outerRadius * Math.sin(i * deltaAngle * degree),
+        px: controlPoint.px + outerRadius * Math.cos(i * deltaAngle * degree),
+        py: controlPoint.py + outerRadius * Math.sin(i * deltaAngle * degree)
       });
     }
 
     const linesToDraw: DrawPart[] = [];
-
     for (let i = 0; i < points.length; i++) {
       linesToDraw.push({
         control: controlPoint,
         p1: points[i],
-        func: this.drawLine.bind(this),
+        func: this.drawLine.bind(this)
       });
     }
 
@@ -122,7 +114,6 @@ class Controller {
     const deltaRadius = dist / nArcs;
 
     const arcsToDraw: DrawPart[] = [];
-
     for (let j = 1; j <= nArcs; j++) {
       for (let i = 0; i < points.length; i++) {
         const p1 = points[i % points.length];
@@ -130,50 +121,41 @@ class Controller {
 
         arcsToDraw.push({
           control: controlPoint,
-          p1,
-          p2,
+          p1: p1,
+          p2: p2,
           radius: j * deltaRadius,
-          func: this.drawCurve.bind(this),
+          func: this.drawCurve.bind(this)
         });
       }
     }
 
-    this.objectsToDraw = [...linesToDraw, ...arcsToDraw];
+    this.objectsToDraw = [];
+    while (linesToDraw.length > 0) {
+      this.objectsToDraw.push(linesToDraw.shift()!);
+    }
+
+    while (arcsToDraw.length > 0) {
+      this.objectsToDraw.push(arcsToDraw.shift()!);
+    }
 
     this.drawPart();
   }
 
   resize() {
-    // Ignore mobile scroll-induced resize events
-    if (this.lastWidth === window.innerWidth) return;
-
-    this.lastWidth = window.innerWidth;
-
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
 
-    const outerRadius =
-      Math.min(this.screenWidth / 2, this.screenHeight / 2) + 300;
-
-    const controlPoint = {
-      px: this.screenWidth / 2,
-      py: this.screenHeight / 2,
-    };
-
+    const outerRadius = Math.min(this.screenWidth / 2, this.screenHeight / 2) + 300;
+    const controlPoint = { px: this.screenWidth / 2, py: this.screenHeight / 2 };
     const nLines = 18;
     const deltaAngle = 360 / nLines;
     const degree = Math.PI / 180;
-
     const points: Point[] = [];
 
     for (let i = 0; i < nLines; i++) {
       points.push({
-        px:
-          controlPoint.px +
-          outerRadius * Math.cos(i * deltaAngle * degree),
-        py:
-          controlPoint.py +
-          outerRadius * Math.sin(i * deltaAngle * degree),
+        px: controlPoint.px + outerRadius * Math.cos(i * deltaAngle * degree),
+        py: controlPoint.py + outerRadius * Math.sin(i * deltaAngle * degree)
       });
     }
 
@@ -186,27 +168,47 @@ class Controller {
     this.canvas.width = this.screenWidth;
     this.canvas.height = this.screenHeight;
 
-    cancelAnimationFrame(this.lastRequestId);
+    window.cancelAnimationFrame(this.lastRequestId);
+    this.objectsToDraw = [];
     this.drawWebByParts();
+
+    this.lastWidth = window.innerWidth;
+  }
+
+  // Only re-run the (expensive) resize/animation when the WIDTH actually
+  // changes. On mobile, scrolling shows/hides the browser's address bar,
+  // which fires a 'resize' event with only the HEIGHT changing — that
+  // used to retrigger the whole animation on every scroll.
+  handleResizeEvent() {
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+
+    this.resizeTimeout = setTimeout(() => {
+      const newWidth = window.innerWidth;
+      if (newWidth !== this.lastWidth) {
+        this.resize();
+      }
+    }, 150);
   }
 
   init() {
-    window.addEventListener('resize', this.resize);
-
-    // initial draw
     this.lastWidth = window.innerWidth;
+    window.addEventListener("resize", this.handleResizeEvent);
     this.resize();
   }
 
   destroy() {
-    window.removeEventListener('resize', this.resize);
-    cancelAnimationFrame(this.lastRequestId);
+    window.removeEventListener("resize", this.handleResizeEvent);
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    window.cancelAnimationFrame(this.lastRequestId);
   }
 
   static d2Dist(p1: Point, p2: Point): number {
     const dx = p1.px - p2.px;
     const dy = p1.py - p2.py;
-
     return Math.sqrt(dx * dx + dy * dy);
   }
 }
@@ -215,26 +217,21 @@ const WebBuild = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    let controller: Controller | null = null;
 
-    const controller = new Controller(canvasRef.current);
+    if (canvasRef.current) {
+      controller = new Controller(canvasRef.current);
+      controller.init();
+    }
 
-    controller.init();
-
-    return () => controller.destroy();
+    return () => {
+      controller?.destroy();
+    };
   }, []);
 
   return (
-    <div className="w-full overflow-hidden">
-      <canvas
-        ref={canvasRef}
-        id="screen"
-        style={{
-          background: '#111111',
-          width: '100vw',
-          display: 'block',
-        }}
-      />
+    <div className="">
+      <canvas ref={canvasRef} id="screen" style={{ background: '#090A0F', width: '100vw' }} />
     </div>
   );
 };
